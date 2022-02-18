@@ -32,6 +32,12 @@ public class CustomerServiceImpl implements CustomerService{
 	public CustomerPojo moneyTransfer(int fromAccountId, int toAccountId, double transferMoney) throws SystemException {
 		return customerDao.moneyTransfer(fromAccountId, toAccountId, transferMoney);
 	}
+	
+	// Exit Application
+	@Override
+	public void exitApplication() throws SystemException {
+		customerDao.exitApplication();		
+	}
 
 	
 	

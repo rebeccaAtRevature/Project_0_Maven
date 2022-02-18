@@ -129,8 +129,10 @@ public class BankMain {
 							LOG.error(e);
 							System.out.println(e.getMessage());
 						}
-						
-						
+						System.out.println("Customer ID : " + fetchedAccount.getCustomerId());
+						System.out.println("Customer Name : " + fetchedAccount.getCustomerFirstName() + " " + fetchedAccount.getCustomerLastName());
+						System.out.println("Customer Contact : " + fetchedAccount.getCustomerPhoneNumber());
+						System.out.println("Customer Address : " + fetchedAccount.getCustomerAddress());
 						System.out.println("Account ID : " + fetchedAccount.getAccountId());
 						System.out.println("Account Balance : " + fetchedAccount.getAccountBalance());
 						System.out.println("______________________________________________________________________________\n");
@@ -161,7 +163,7 @@ public class BankMain {
 						
 						try {
 							
-							customerService.moneyTransfer(accountTransferFrom.getAccountId(), accountTransferTo.getAccountId(), transferAmount);
+							accountTransferFrom = customerService.moneyTransfer(accountTransferFrom.getAccountId(), accountTransferTo.getAccountId(), transferAmount);
 						} catch (SystemException e) {
 							LOG.error(e);
 							System.out.println(e.getMessage());
@@ -315,6 +317,13 @@ public class BankMain {
 			case 3:
 				BankManagementSystem = false;
 				System.out.println("Exiting System...");
+				try {
+					customerService.exitApplication();
+				} catch (SystemException e) {
+					LOG.error(e);
+					System.out.println(e.getMessage());
+				}
+				System.exit(0);
 				
 			}
 			

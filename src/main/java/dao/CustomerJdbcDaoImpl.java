@@ -25,7 +25,7 @@ public class CustomerJdbcDaoImpl implements CustomerDao{
 			customerPojo = loginAttempt;
 		}
 		LOG.info("Exiting customerLogin() in Dao");
-		return null;
+		return customerPojo;
 	}
 
 	@Override
@@ -49,21 +49,22 @@ public class CustomerJdbcDaoImpl implements CustomerDao{
 		}
 		
 		LOG.info("Exiting fetchCustomer() in Dao");
-		return null;
+		return customerPojo;
 	}
 
 	@Override
 	public CustomerPojo moneyTransfer(int fromAccountId, int toAccountId, double transferMoney) throws SystemException {
-		LOG.info("Entering updateCustomer() in Dao");
+		LOG.info("Entering moneyTransfer() in Dao");
+		CustomerPojo customerPojo = null;
 		// Step 2 - pass the connection from DBUtil to conn
 		Connection conn = DBUtil.obtainConnection();
 		
 		try {
 			Statement stmt = conn.createStatement();
 			
-			String query1 = "UPDATE account_details Set account_balance=account_balance-"+transferMoney+" WHERE account_id="+fromAccountId;
-			String query2 = "UPDATE account_details Set account_balance=account_balance+"+transferMoney+" WHERE account_id="+toAccountId;
-			
+			String query1 = "UPDATE customer_details Set account_balance=account_balance-"+transferMoney+" WHERE account_id="+fromAccountId;
+			String query2 = "UPDATE customer_details Set account_balance=account_balance+"+transferMoney+" WHERE account_id="+toAccountId;
+			System.out.println("Queries created...");
 			// Mark the start of the transaction
 			conn.setAutoCommit(false); // Don't make any changes into the database until I say so
 			int rows1 = stmt.executeUpdate(query1);
@@ -71,12 +72,16 @@ public class CustomerJdbcDaoImpl implements CustomerDao{
 			int rows2 = stmt.executeUpdate(query2);
 			conn.commit(); // The changes are committed to the DB
 			// Marks the end of the transaction 
+			System.out.println("Transaction completed...");
+			
+			// NOTE: Assumes that Account ID is equal to Customer ID which may not be the case in some senarios!
+			customerPojo = fetchCustomer(fromAccountId);
 			
 		} catch (SQLException e) {
 			throw new SystemException();
 		}
-		LOG.info("Exiting updateCustomer() in Dao");
-		return null;
+		LOG.info("Exiting moneyTransfer() in Dao");
+		return customerPojo;
 	}
 
 }

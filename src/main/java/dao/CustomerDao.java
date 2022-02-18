@@ -21,6 +21,11 @@ public interface CustomerDao {
 	
 	// LOGOUT
 	
+	// Exit Application
+	default void exitApplication() throws SystemException {
+		DBUtil.closeConnection();
+	}
+	
 	// CRUD OPERATIONS
 	// ****************************************************************
 	

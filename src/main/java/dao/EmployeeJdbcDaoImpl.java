@@ -43,21 +43,20 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 		try {
 			// Create a statement
 			Statement stmt = conn.createStatement();
-			// Generate a new customerId
-			String query1 = "SELECT MAX(customer_id) FROM customer_details";
-			int lastCustomerId = 0;
-			// Execute query 1
-			ResultSet rs = stmt.executeQuery(query1);
-			// if query is successful, rs should have one value
-			if(rs.next()) {
-				// collect the maximum book Id from list
-				lastCustomerId = rs.getInt(1);
-			}
-			int newCustomerId = lastCustomerId + 1;
+			
 			// Add customer information to SQL table
-			String query2 = "INSERT INTO customer_details VALUES("+newCustomerId+", '"+customerPojo.getCustomerFirstName()+"', '"+customerPojo.getCustomerLastName()+"', '"+customerPojo.getCustomerPhoneNumber()+"', '"+customerPojo.getCustomerAddress()+"', "+customerPojo.getAccountId()+", "+customerPojo.getAccountBalance()+", "+customerPojo.getCustomerPassword()+")";
+			String query2 = "INSERT INTO customer_details(customer_first_name, customer_last_name, customer_phone_number, customer_address, account_balance, customer_password) VALUES( '"+customerPojo.getCustomerFirstName()+"', '"+customerPojo.getCustomerLastName()+"', '"+customerPojo.getCustomerPhoneNumber()+"', '"+customerPojo.getCustomerAddress()+"', "+customerPojo.getAccountBalance()+", "+customerPojo.getCustomerPassword()+")";
 			int rows = stmt.executeUpdate(query2);
-			customerPojo.setCustomerId(newCustomerId);
+			
+			// ***********************************************
+			// ADD CUSTOMER ID AND ACCOUNT ID TO CUSTOMERPOJO!
+			// ***********************************************
+			String query = "SELECT * FROM customer_details WHERE customer_phone_number='"+customerPojo.getCustomerPhoneNumber()+"'";
+			ResultSet rs = stmt.executeQuery(query);
+			if(rs.next()) {
+				customerPojo.setCustomerId(rs.getInt(1));
+				customerPojo.setAccountId(rs.getInt(6));
+			}
 			
 		} catch (SQLException e) {
 			
@@ -79,10 +78,11 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 		try {
 
 			Statement stmt = conn.createStatement();
-			String query = "SELECT * FROM book_details";
+			String query = "SELECT * FROM customer_details";
 			ResultSet rs = stmt.executeQuery(query);
 			// iterate through the result set
 			while(rs.next()) {
+				System.out.println("rs is not NULL, customerId is: "+rs.getInt(1));
 				// copy each record into a CustomerPojo object
 				CustomerPojo customerPojo = new CustomerPojo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getDouble(7), rs.getString(8));
 				// add the book pojo object to the collection
@@ -101,7 +101,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 		}
 		
 		LOG.info("Exiting fetchAllCustomer() in Dao");
-		return null;
+		return allCustomers;
 	}
 
 	@Override
@@ -117,6 +117,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			String query = "SELECT * FROM employee_details WHERE employee_id="+employeeId;
 			ResultSet rs = stmt.executeQuery(query);
 			if(rs.next()) {
+				System.out.println("rs is not NULL, employeeId is: "+rs.getInt(1));
 				employeePojo = new EmployeePojo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
 			}
 			
@@ -125,7 +126,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 		}
 		
 		LOG.info("Exiting fetchEmployee() in Dao");
-		return null;
+		return employeePojo;
 	}
 
 }

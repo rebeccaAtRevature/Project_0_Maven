@@ -7,8 +7,7 @@ import java.sql.SQLException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import exception.SystemException;
-import presentation.BankMain;
+import exceptions.SystemException;
 
 public class DBUtil {
 	

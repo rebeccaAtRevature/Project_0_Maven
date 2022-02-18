@@ -1,5 +1,6 @@
 package service;
 
+import dao.DBUtil;
 import exceptions.SystemException;
 import pojo.CustomerPojo;
 
@@ -18,6 +19,8 @@ public interface CustomerService {
 
 		
 		// LOGOUT
+		// Exit Application
+		void exitApplication() throws SystemException;
 		
 		// CRUD OPERATIONS
 		// ****************************************************************
