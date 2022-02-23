@@ -21,7 +21,7 @@ public interface CustomerService {
 		TransactionPojo moneyTransfer(TransactionPojo transactionPojo) throws SystemException;
 
 		// VIEW TRANSACTION HISTORY
-		List<TransactionPojo> transactionHistory() throws SystemException, DataNotFoundException;
+		List<TransactionPojo> transactionHistory(CustomerPojo CustomerPojo) throws SystemException, DataNotFoundException;
 		TransactionPojo addTransaction(TransactionPojo transactionPojo) throws SystemException;
 		
 		// LOGOUT

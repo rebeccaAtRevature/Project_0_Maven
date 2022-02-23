@@ -19,7 +19,7 @@ public class CustomerServiceImpl implements CustomerService{
 	// Create an object to call the DAO layer
 	CustomerDao customerDao = new CustomerJdbcDaoImpl();
 	
-	// LOGOUT
+	// LOGIN
 	@Override
 	public CustomerPojo customerLogin(int customerId, String customerPassword) throws SystemException {
 		return customerDao.customerLogin(customerId, customerPassword);
@@ -39,8 +39,8 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	// VIEW TRANSACTION HISTORY
 	@Override
-	public List<TransactionPojo> transactionHistory() throws SystemException, DataNotFoundException {	
-		return customerDao.transactionHistory();
+	public List<TransactionPojo> transactionHistory(CustomerPojo customerPojo) throws SystemException, DataNotFoundException {	
+		return customerDao.transactionHistory(customerPojo);
 	}
 
 	@Override

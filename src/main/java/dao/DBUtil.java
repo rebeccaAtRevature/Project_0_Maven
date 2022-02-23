@@ -27,7 +27,7 @@ public class DBUtil {
 	// DBUtil must return the same connection again and again
 	// MUST NOT return new connection every time the class is called
 	
-	static Connection obtainConnection(){
+	static Connection obtainConnection() throws SystemException{
 		LOG.info("Entering obtainConnection() in DBUtil");
 		String connectionUrl = "jdbc:postgresql://127.0.0.1:5432/bank";
 		String userName = "postgres";
@@ -38,7 +38,7 @@ public class DBUtil {
 			try {
 				conn = DriverManager.getConnection(connectionUrl, userName, password);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				throw new SystemException();
 			}
 		}
 		LOG.info("Exiting obtainConnection() in DBUtil");
@@ -46,12 +46,14 @@ public class DBUtil {
 	}
 	
 	static void closeConnection() throws SystemException {
-		
-		try {
-			conn.close();
-			System.out.println("Connection has been closed...");
-		} catch (SQLException e) {
-			throw new SystemException();
+		if(conn != null) {
+			try {
+				conn.close();
+
+			} catch (SQLException e) {
+				throw new SystemException();
+			}
 		}
+		
 	}
 }

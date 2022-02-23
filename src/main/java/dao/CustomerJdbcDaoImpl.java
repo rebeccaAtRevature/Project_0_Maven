@@ -114,7 +114,7 @@ public class CustomerJdbcDaoImpl implements CustomerDao{
 	}
 
 	@Override
-	public List<TransactionPojo> transactionHistory() throws SystemException, DataNotFoundException {
+	public List<TransactionPojo> transactionHistory(CustomerPojo customerPojo) throws SystemException, DataNotFoundException {
 		LOG.info("Entering transactionHistory() in Dao");
 		
 		Connection conn = DBUtil.obtainConnection();
@@ -124,7 +124,7 @@ public class CustomerJdbcDaoImpl implements CustomerDao{
 		try {
 
 			Statement stmt = conn.createStatement();
-			String query = "SELECT transaction_date_and_time, customer_first_name, customer_last_name, transfer_amount, new_balance_from, new_balance_to FROM customer_details INNER JOIN transaction_history ON account_transfer_from=account_id ORDER BY transaction_history.transaction_date_and_time";
+			String query = "SELECT transaction_date_and_time, customer_first_name, customer_last_name, transfer_amount, new_balance_from, new_balance_to FROM customer_details INNER JOIN transaction_history ON account_transfer_from=account_id WHERE customer_first_name='"+customerPojo.getCustomerFirstName()+"'ORDER BY transaction_history.transaction_date_and_time";
 			ResultSet rs = stmt.executeQuery(query);
 			// iterate through the result set
 			while(rs.next()) {

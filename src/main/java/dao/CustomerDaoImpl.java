@@ -76,7 +76,7 @@ public class CustomerDaoImpl implements CustomerDao{
 	}*/
 
 	@Override
-	public List<TransactionPojo> transactionHistory() throws SystemException, DataNotFoundException {
+	public List<TransactionPojo> transactionHistory(CustomerPojo customerPojo) throws SystemException, DataNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}

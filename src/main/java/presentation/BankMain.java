@@ -187,7 +187,7 @@ public class BankMain {
 						// View Transaction History
 						List<TransactionPojo> allTransactions = null;
 						try {
-							allTransactions = customerService.transactionHistory();
+							allTransactions = customerService.transactionHistory(customerMain);
 						} catch (SystemException e) {
 							LOG.error(e);
 							System.out.println(e.getMessage());
@@ -198,7 +198,6 @@ public class BankMain {
 						if (allTransactions==null) {
 							System.out.println("allTransactions is null");
 						}
-						allTransactions.forEach((transaction)->System.out.println("from 'for each' in Main : "+transaction));
 						System.out.println("________________________________________________________________________________________________________________________________________________________________________________\n");
 						System.out.printf("%30s %30s %20s %30s %40s\n", "DATE AND TIME", "CUSTOMER MAKING TRANSACTION", "TRANSFER AMOUNT", "NEW CUSTOMER BALANCE", "NEW BALANCE OF ACCOUNT TRANSFERED TO");
 						
@@ -347,7 +346,18 @@ public class BankMain {
 				break;
 			case 3:
 				BankManagementSystem = false;
-				System.out.println("Exiting System...");
+				System.out.println("______________________________________________________________________________\n");
+				System.out.println("Thank you for using the Bank Management System.\n\n");
+				for (int i = 0; i < 5 ; i++) {
+					System.out.print(" .");
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						
+						System.out.println("System Error, please try again later");
+					}
+				}
+				System.out.println("\n\nYou have exited the System.");
 				try {
 					customerService.exitApplication();
 				} catch (SystemException e) {
