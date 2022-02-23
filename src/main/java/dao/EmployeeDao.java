@@ -2,7 +2,7 @@ package dao;
 
 import java.util.List;
 
-import exceptions.CustomerNotFoundException;
+import exceptions.DataNotFoundException;
 import exceptions.SystemException;
 import pojo.CustomerPojo;
 import pojo.EmployeePojo;
@@ -19,7 +19,7 @@ public interface EmployeeDao {
 	CustomerPojo addCustomer(CustomerPojo customerPojo) throws SystemException;
 	
 	// LIST ALL COUSTOMER INFORMATION
-	List<CustomerPojo> fetchAllCustomers() throws SystemException, CustomerNotFoundException;
+	List<CustomerPojo> fetchAllCustomers() throws SystemException, DataNotFoundException;
 
 
 	// LOGOUT

@@ -10,7 +10,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import exceptions.CustomerNotFoundException;
+import exceptions.DataNotFoundException;
 import exceptions.SystemException;
 import pojo.CustomerPojo;
 import pojo.EmployeePojo;
@@ -46,11 +46,10 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			
 			// Add customer information to SQL table
 			String query2 = "INSERT INTO customer_details(customer_first_name, customer_last_name, customer_phone_number, customer_address, account_balance, customer_password) VALUES( '"+customerPojo.getCustomerFirstName()+"', '"+customerPojo.getCustomerLastName()+"', '"+customerPojo.getCustomerPhoneNumber()+"', '"+customerPojo.getCustomerAddress()+"', "+customerPojo.getAccountBalance()+", "+customerPojo.getCustomerPassword()+")";
+			@SuppressWarnings("unused")
 			int rows = stmt.executeUpdate(query2);
 			
-			// ***********************************************
-			// ADD CUSTOMER ID AND ACCOUNT ID TO CUSTOMERPOJO!
-			// ***********************************************
+			// Add customer ID and account ID to customer POJO
 			String query = "SELECT * FROM customer_details WHERE customer_phone_number='"+customerPojo.getCustomerPhoneNumber()+"'";
 			ResultSet rs = stmt.executeQuery(query);
 			if(rs.next()) {
@@ -68,7 +67,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 	}
 
 	@Override
-	public List<CustomerPojo> fetchAllCustomers() throws SystemException, CustomerNotFoundException {
+	public List<CustomerPojo> fetchAllCustomers() throws SystemException, DataNotFoundException {
 		LOG.info("Entering fetchAllCustomer() in Dao");
 		
 		Connection conn = DBUtil.obtainConnection();
@@ -82,22 +81,18 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			ResultSet rs = stmt.executeQuery(query);
 			// iterate through the result set
 			while(rs.next()) {
-				System.out.println("rs is not NULL, customerId is: "+rs.getInt(1));
 				// copy each record into a CustomerPojo object
 				CustomerPojo customerPojo = new CustomerPojo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getDouble(7), rs.getString(8));
 				// add the book pojo object to the collection
 				allCustomers.add(customerPojo);
-			
 			}
-			
-			
 			
 		} catch (SQLException e){
 			
 			throw new SystemException();
 		} 		
 		if (allCustomers.isEmpty()) {
-			throw new CustomerNotFoundException();
+			throw new DataNotFoundException("No Customers found in database.");
 		}
 		
 		LOG.info("Exiting fetchAllCustomer() in Dao");
@@ -117,7 +112,7 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 			String query = "SELECT * FROM employee_details WHERE employee_id="+employeeId;
 			ResultSet rs = stmt.executeQuery(query);
 			if(rs.next()) {
-				System.out.println("rs is not NULL, employeeId is: "+rs.getInt(1));
+				
 				employeePojo = new EmployeePojo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
 			}
 			

@@ -1,15 +1,17 @@
 package pojo;
 
+import java.util.Objects;
+
 public class CustomerPojo {
 	
-	int customerId;
-	String customerFirstName;
-	String customerLastName;
-	String customerPhoneNumber;
-	String customerAddress;
-	int accountId;
-	double accountBalance;
-	String customerPassword;
+	private int customerId;
+	private String customerFirstName;
+	private String customerLastName;
+	private String customerPhoneNumber;
+	private String customerAddress;
+	private int accountId;
+	private double accountBalance;
+	private String customerPassword;
 	
 	public CustomerPojo() {
 		
@@ -102,5 +104,28 @@ public class CustomerPojo {
 				+ ", customerAddress=" + customerAddress + ", accountId=" + accountId + ", accountBalance="
 				+ accountBalance + ", customerPassword=" + customerPassword + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(accountId, customerAddress, customerFirstName, customerId, customerLastName,
+				customerPassword, customerPhoneNumber);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CustomerPojo other = (CustomerPojo) obj;
+		return accountId == other.accountId && Objects.equals(customerAddress, other.customerAddress)
+				&& Objects.equals(customerFirstName, other.customerFirstName) && customerId == other.customerId
+				&& Objects.equals(customerLastName, other.customerLastName)
+				&& Objects.equals(customerPassword, other.customerPassword)
+				&& Objects.equals(customerPhoneNumber, other.customerPhoneNumber);
+	}
 		
+	
 }

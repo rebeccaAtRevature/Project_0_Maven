@@ -8,8 +8,10 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import exceptions.DataNotFoundException;
 import exceptions.SystemException;
 import pojo.CustomerPojo;
+import pojo.TransactionPojo;
 
 
 public class CustomerDaoImpl implements CustomerDao{
@@ -74,7 +76,19 @@ public class CustomerDaoImpl implements CustomerDao{
 	}*/
 
 	@Override
-	public CustomerPojo moneyTransfer(int fromAccountId, int toAccountId, double transferMoney) throws SystemException {
+	public List<TransactionPojo> transactionHistory() throws SystemException, DataNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TransactionPojo addTransaction(TransactionPojo transactionPojo) throws SystemException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TransactionPojo moneyTransfer(TransactionPojo transactionPojo) throws SystemException {
 		// TODO Auto-generated method stub
 		return null;
 	}

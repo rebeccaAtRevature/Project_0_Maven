@@ -1,5 +1,6 @@
 package exceptions;
 
+@SuppressWarnings("serial")
 public class SystemException extends Exception{
 
 	@Override
@@ -7,5 +8,4 @@ public class SystemException extends Exception{
 		return "System Error! Please try again later.";
 	}
 	
-
 }

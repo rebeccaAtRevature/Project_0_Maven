@@ -1,8 +1,11 @@
 package service;
 
-import dao.DBUtil;
+import java.util.List;
+
+import exceptions.DataNotFoundException;
 import exceptions.SystemException;
 import pojo.CustomerPojo;
+import pojo.TransactionPojo;
 
 public interface CustomerService {
 	
@@ -15,8 +18,11 @@ public interface CustomerService {
 		CustomerPojo fetchCustomer(int customerId) throws SystemException;
 		
 		// TRANSFER MONEY TO ANOTHER ACCOUNT
-		CustomerPojo moneyTransfer(int fromAccountId, int toAccountId, double transferMoney) throws SystemException;
+		TransactionPojo moneyTransfer(TransactionPojo transactionPojo) throws SystemException;
 
+		// VIEW TRANSACTION HISTORY
+		List<TransactionPojo> transactionHistory() throws SystemException, DataNotFoundException;
+		TransactionPojo addTransaction(TransactionPojo transactionPojo) throws SystemException;
 		
 		// LOGOUT
 		// Exit Application

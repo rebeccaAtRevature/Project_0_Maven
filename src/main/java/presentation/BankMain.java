@@ -1,16 +1,16 @@
 package presentation;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import exceptions.CustomerNotFoundException;
+import exceptions.DataNotFoundException;
 import exceptions.SystemException;
 import pojo.CustomerPojo;
 import pojo.EmployeePojo;
+import pojo.TransactionPojo;
 import service.CustomerService;
 import service.CustomerServiceImpl;
 import service.EmployeeService;
@@ -111,6 +111,8 @@ public class BankMain {
 				
 				while(customerLoggedIn) {
 					// Customer Menu
+					System.out.println("______________________________________________________________________________\n");
+					System.out.println("Welcome to the Customer Menu!\n");
 					System.out.println("1. View Account\n2. Transfer Money\n3. View Transaction History\n4. Logout");
 					System.out.println("______________________________________________________________________________\n");
 					System.out.println("Please enter menu option : ");
@@ -129,6 +131,8 @@ public class BankMain {
 							LOG.error(e);
 							System.out.println(e.getMessage());
 						}
+						System.out.println("Customer Account Details\n");
+						System.out.println("------------------------\n");
 						System.out.println("Customer ID : " + fetchedAccount.getCustomerId());
 						System.out.println("Customer Name : " + fetchedAccount.getCustomerFirstName() + " " + fetchedAccount.getCustomerLastName());
 						System.out.println("Customer Contact : " + fetchedAccount.getCustomerPhoneNumber());
@@ -160,16 +164,20 @@ public class BankMain {
 						}
 						System.out.println("How much money will you be transfering?");
 						double transferAmount = scan.nextDouble();
+						scan.nextLine();
+						
+						TransactionPojo transactionPojo = new TransactionPojo(accountTransferFrom.getAccountId(), accountTransferTo.getAccountId(), transferAmount);
 						
 						try {
 							
-							accountTransferFrom = customerService.moneyTransfer(accountTransferFrom.getAccountId(), accountTransferTo.getAccountId(), transferAmount);
+							customerService.moneyTransfer(transactionPojo);
 						} catch (SystemException e) {
 							LOG.error(e);
+							
 							System.out.println(e.getMessage());
 						}
 						
-						System.out.println("Your new account balance is: " + accountTransferFrom.getAccountBalance());
+						//System.out.println("Your new account balance is: " + accountTransferFrom.getAccountBalance());
 						System.out.println("______________________________________________________________________________\n");
 						System.out.println("Please press enter to continue...");
 						scan.nextLine();
@@ -177,6 +185,29 @@ public class BankMain {
 						break;
 					case 3:
 						// View Transaction History
+						List<TransactionPojo> allTransactions = null;
+						try {
+							allTransactions = customerService.transactionHistory();
+						} catch (SystemException e) {
+							LOG.error(e);
+							System.out.println(e.getMessage());
+						} catch (DataNotFoundException e) {
+							LOG.error(e);
+							System.out.println(e.getMessage());
+						}
+						if (allTransactions==null) {
+							System.out.println("allTransactions is null");
+						}
+						allTransactions.forEach((transaction)->System.out.println("from 'for each' in Main : "+transaction));
+						System.out.println("________________________________________________________________________________________________________________________________________________________________________________\n");
+						System.out.printf("%30s %30s %20s %30s %40s\n", "DATE AND TIME", "CUSTOMER MAKING TRANSACTION", "TRANSFER AMOUNT", "NEW CUSTOMER BALANCE", "NEW BALANCE OF ACCOUNT TRANSFERED TO");
+						
+						System.out.println("________________________________________________________________________________________________________________________________________________________________________________\n");
+						
+						allTransactions.forEach((transaction) -> System.out.format("%30s %30s %20s %30s %40s\n",transaction.getTimestamp(), transaction.getAccountFromFirstName() +" "+ transaction.getAccountFromLastName(),"$"+transaction.getTransferAmount(), "$"+transaction.getNewBalanceFrom(), "$"+transaction.getNewBalanceTo()));
+						System.out.println("________________________________________________________________________________________________________________________________________________________________________________\n");
+						System.out.println("Please press enter to continue...");
+						scan.nextLine();
 						break;
 					case 4:
 						// LOGOUT
@@ -287,18 +318,18 @@ public class BankMain {
 						} catch (SystemException e) {
 							LOG.error(e);
 							System.out.println(e.getMessage());
-						} catch (CustomerNotFoundException e) {
+						} catch (DataNotFoundException e) {
 							LOG.error(e);
 							System.out.println(e.getMessage());
 						}
-						Iterator<CustomerPojo> iter = allCustomers.iterator();
-						System.out.println("______________________________________________________________________________\n");
-						System.out.println("CUSTOMER ID\tFIRST NAME\tLAST NAME\tPHONE NUMBER\tADDRESS\t\tACCOUNT ID\tACCOUNT BALANCE");
+					
+						System.out.println("____________________________________________________________________________________________________________________________________________________________\n");
+						System.out.printf("%20s %20s %20s %20s %20s %20s %20s\n","CUSTOMER ID","FIRST NAME","LAST NAME","PHONE NUMBER","ADDRESS","ACCOUNT ID","ACCOUNT BALANCE");
 						
-						System.out.println("______________________________________________________________________________\n");
+						System.out.println("____________________________________________________________________________________________________________________________________________________________\n");
 						
-						allCustomers.forEach((customer) -> System.out.println(customer.getCustomerId() + "\t\t" + customer.getCustomerFirstName() + "\t\t" + customer.getCustomerLastName() + "\t\t" + customer.getCustomerPhoneNumber() + "\t" + customer.getCustomerAddress() + "\t" + customer.getAccountId() + "\t\t" + customer.getAccountBalance()) );
-						System.out.println("______________________________________________________________________________\n");
+						allCustomers.forEach((customer) -> System.out.format("%20s %20s %20s %20s %20s %20s %20s\n" , customer.getCustomerId(), customer.getCustomerFirstName(), customer.getCustomerLastName(), customer.getCustomerPhoneNumber(), customer.getCustomerAddress(), customer.getAccountId(), "$"+customer.getAccountBalance()));
+						System.out.println("____________________________________________________________________________________________________________________________________________________________\n");
 						System.out.println("Please press enter to continue...");
 						scan.nextLine();
 						break;

@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import dao.EmployeeDao;
 import dao.EmployeeJdbcDaoImpl;
-import exceptions.CustomerNotFoundException;
+import exceptions.DataNotFoundException;
 import exceptions.SystemException;
 import pojo.CustomerPojo;
 import pojo.EmployeePojo;
@@ -34,7 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 	
 	// VIEW ALL ACCOUNTS
-	public List<CustomerPojo> fetchAllCustomers() throws SystemException, CustomerNotFoundException{
+	public List<CustomerPojo> fetchAllCustomers() throws SystemException, DataNotFoundException{
 		return employeeDao.fetchAllCustomers();		
 	}
 	

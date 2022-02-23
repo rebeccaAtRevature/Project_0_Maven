@@ -37,7 +37,6 @@ public class DBUtil {
 		if(conn == null) {
 			try {
 				conn = DriverManager.getConnection(connectionUrl, userName, password);
-				System.out.println("Connection Successful...");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

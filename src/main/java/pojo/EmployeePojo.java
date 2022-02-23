@@ -1,13 +1,15 @@
 package pojo;
 
+import java.util.Objects;
+
 public class EmployeePojo {
 	
-	int employeeId;
-	String employeeFirstName;
-	String employeeLastName;
-	String employeePhoneNumber;
-	String employeeAddress;
-	String password;
+	private int employeeId;
+	private String employeeFirstName;
+	private String employeeLastName;
+	private String employeePhoneNumber;
+	private String employeeAddress;
+	private String password;
 
 	// Constructor
 	public EmployeePojo(int employeeId, String employeeFirstName, String employeeLastName, String employeePhoneNumber,
@@ -75,6 +77,28 @@ public class EmployeePojo {
 		return "EmployeePojo [employeeId=" + employeeId + ", employeeFirstName=" + employeeFirstName
 				+ ", employeeLastName=" + employeeLastName + ", employeePhoneNumber=" + employeePhoneNumber
 				+ ", employeeAddress=" + employeeAddress + ", password=" + password + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(employeeAddress, employeeFirstName, employeeId, employeeLastName, employeePhoneNumber,
+				password);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EmployeePojo other = (EmployeePojo) obj;
+		return Objects.equals(employeeAddress, other.employeeAddress)
+				&& Objects.equals(employeeFirstName, other.employeeFirstName) && employeeId == other.employeeId
+				&& Objects.equals(employeeLastName, other.employeeLastName)
+				&& Objects.equals(employeePhoneNumber, other.employeePhoneNumber)
+				&& Objects.equals(password, other.password);
 	}
 		
 }

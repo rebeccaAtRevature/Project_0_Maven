@@ -1,12 +1,16 @@
 package service;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import dao.CustomerDao;
 import dao.CustomerJdbcDaoImpl;
+import exceptions.DataNotFoundException;
 import exceptions.SystemException;
 import pojo.CustomerPojo;
+import pojo.TransactionPojo;
 
 public class CustomerServiceImpl implements CustomerService{
 	
@@ -29,16 +33,25 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	// TRANSFER MONEY TO ANOTHER ACCOUNT
 	@Override
-	public CustomerPojo moneyTransfer(int fromAccountId, int toAccountId, double transferMoney) throws SystemException {
-		return customerDao.moneyTransfer(fromAccountId, toAccountId, transferMoney);
+	public TransactionPojo moneyTransfer(TransactionPojo transactionPojo) throws SystemException {
+		return customerDao.moneyTransfer(transactionPojo);
 	}
 	
+	// VIEW TRANSACTION HISTORY
+	@Override
+	public List<TransactionPojo> transactionHistory() throws SystemException, DataNotFoundException {	
+		return customerDao.transactionHistory();
+	}
+
+	@Override
+	public TransactionPojo addTransaction(TransactionPojo transactionPojo) throws SystemException {
+		return customerDao.addTransaction(transactionPojo);
+	}
+
 	// Exit Application
 	@Override
 	public void exitApplication() throws SystemException {
 		customerDao.exitApplication();		
 	}
-
-	
 	
 }
