@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.IOException;
 import java.util.List;
 
 import exceptions.DataNotFoundException;
@@ -11,9 +12,6 @@ public interface EmployeeDao {
 	
 	// EMPLOYEE OPERATIONS
 	// *****************************************************
-	
-	// LOGIN
-	EmployeePojo employeeLogin(int employeeId, String employeePassword) throws SystemException;
 	
 	// REGISTER A CUSTOMER
 	CustomerPojo addCustomer(CustomerPojo customerPojo) throws SystemException;

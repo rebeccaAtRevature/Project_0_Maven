@@ -1,8 +1,12 @@
 package dao;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,14 +33,35 @@ public class DBUtil {
 	
 	static Connection obtainConnection() throws SystemException{
 		LOG.info("Entering obtainConnection() in DBUtil");
-		String connectionUrl = "jdbc:postgresql://127.0.0.1:5432/bank";
-		String userName = "postgres";
-		String password = "Beccyshmeccy95";
+		
+//		FileInputStream fileStream;
+//		try {
+//			fileStream = new FileInputStream("C:/Users/rebel/eclipse-workspace/Project0/src/main/resources/JDBCPropertiesFile.properties");
+//		} catch (FileNotFoundException e1) {
+//			e1.printStackTrace();
+//			throw new SystemException();
+//		} 
+//		Properties properties = new Properties(); 
+//		try {
+//			properties.load(fileStream);
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//			throw new SystemException();
+//		}
+//		String url = properties.getProperty("URL");
+//		String password = properties.getProperty("CONNECTION_PASSWORD");
+//		String username = properties.getProperty("CONNECTION_USERNAME");
+//		String URL = System.getenv(url);
+//		String CONNECTION_PASSWORD = System.getenv(password);
+//		String CONNECTION_USERNAME = System.getenv(username);
+		String URL = "jdbc:postgresql://127.0.0.1:5432/bank";
+		String CONNECTION_USERNAME = "postgres";
+		String CONNECTION_PASSWORD = "Beccyshmeccy95";
 		
 		// DESIGN PATTERN - singleton design pattern
 		if(conn == null) {
 			try {
-				conn = DriverManager.getConnection(connectionUrl, userName, password);
+				conn = DriverManager.getConnection(URL, CONNECTION_USERNAME, CONNECTION_PASSWORD);
 			} catch (SQLException e) {
 				throw new SystemException();
 			}

@@ -5,6 +5,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -46,13 +48,13 @@ public class LoginTest {
 		try {
 			CustomerPojo actualResult = customerService.customerLogin(1,"1234");
 			CustomerPojo expectedResult = new CustomerPojo(1, "Mike", "Wazowski",  "(546)213-1562" , "123 Monster Ave." , 1 , 2530.0, "1234");
-			when(customerDao.customerLogin(1,"1234")).thenReturn(new CustomerPojo(1, "Mike", "Wazowski",  "(546)213-1562" , "123 Monster Ave." , 1 , 2530.0, "1234"));
+			when(customerDao.fetchCustomer(1)).thenReturn(new CustomerPojo(1, "Mike", "Wazowski",  "(546)213-1562" , "123 Monster Ave." , 1 , 2530.0, "1234"));
 			assertEquals(actualResult,expectedResult);
 			//verify(customerDao).customerLogin(1, "1234");
 			
 		} catch (SystemException e) {
 			e.printStackTrace();
-		}
+		} 
 		
 	}
 	
@@ -62,13 +64,13 @@ public class LoginTest {
 		try {
 			EmployeePojo actualResult = employeeService.employeeLogin(100,"1234");
 			EmployeePojo expectedResult = new EmployeePojo(100, "Celia", "Mae",  "(546)309-3823" , "566 Weelia Ct." , "1234");
-			when(employeeDao.employeeLogin(100,"1234")).thenReturn(new EmployeePojo(100, "Celia", "Mae",  "(546)309-3823" , "566 Weelia Ct." , "1234"));
+			when(employeeDao.fetchEmployee(100)).thenReturn(new EmployeePojo(100, "Celia", "Mae",  "(546)309-3823" , "566 Weelia Ct." , "1234"));
 			assertEquals(actualResult,expectedResult);
 			//verify(employeeDao).employeeLogin(100, "1234");
 			
 		} catch (SystemException e) {
 			e.printStackTrace();
-		}
+		} 
 		
 	}
 

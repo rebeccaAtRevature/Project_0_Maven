@@ -13,7 +13,7 @@
 			<Policies>
 				<SizeBasedTriggeringPolicy size="1 KB" />
 			</Policies>
-			<DefaultRolloverStrategy max="4">
+			<DefaultRolloverStrategy max="10">
 				<Delete basePath="${log-path}" maxDepth="1">
 					<!-- Looks for file names starting with app*.log*. Any file including app.log.1 will satisfy this condition. Could delete current log app.log -->
 					<IfFileName glob="*/app-*.log.gz" />

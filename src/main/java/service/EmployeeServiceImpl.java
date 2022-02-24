@@ -1,5 +1,6 @@
 package service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -25,7 +26,17 @@ public class EmployeeServiceImpl implements EmployeeService{
 	// LOGIN
 	@Override
 	public EmployeePojo employeeLogin(int employeeId, String employeePassword) throws SystemException {
-		return employeeDao.employeeLogin(employeeId, employeePassword);
+		LOG.info("Entering employeeLogin() in Service Layer");
+		
+		EmployeePojo employeePojo = null;
+		EmployeePojo loginAttempt = employeeDao.fetchEmployee(employeeId);
+		if (loginAttempt.getPassword().equals(employeePassword)) {
+			employeePojo = loginAttempt;
+		}
+		
+		LOG.info("Exiting employeeLogin() in Service Layer");
+		return employeePojo;
+		
 	}
 	
 	// REGISTER A CUSTOMER
@@ -34,7 +45,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 	
 	// VIEW ALL ACCOUNTS
-	public List<CustomerPojo> fetchAllCustomers() throws SystemException, DataNotFoundException{
+	public List<CustomerPojo> fetchAllCustomers() throws SystemException, DataNotFoundException {
 		return employeeDao.fetchAllCustomers();		
 	}
 	

@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,19 +20,6 @@ public class EmployeeJdbcDaoImpl implements EmployeeDao {
 	
 	public static final Logger LOG = LogManager.getLogger(EmployeeJdbcDaoImpl.class);
 
-	@Override
-	public EmployeePojo employeeLogin(int employeeId, String employeePassword) throws SystemException {
-		LOG.info("Entering employeeLogin() in Dao");
-		
-		EmployeePojo employeePojo = null;
-		EmployeePojo loginAttempt = fetchEmployee(employeeId);
-		if (loginAttempt.getPassword().equals(employeePassword)) {
-			employeePojo = loginAttempt;
-		}
-		
-		LOG.info("Exiting employeeLogin() in Dao");
-		return employeePojo;
-	}
 
 	@Override
 	public CustomerPojo addCustomer(CustomerPojo customerPojo) throws SystemException {

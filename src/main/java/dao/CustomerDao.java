@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.IOException;
 import java.util.List;
 
 import exceptions.DataNotFoundException;
@@ -11,9 +12,7 @@ public interface CustomerDao {
 	
 	// CUSTOMER OPERATIONS
 	// ****************************************************************
-	// LOGIN
-	CustomerPojo customerLogin(int customerId, String customerPassword) throws SystemException;
-	
+
 	// VIEW ACCOUNT DETAILS
 	CustomerPojo fetchCustomer(int customerId) throws SystemException;
 	

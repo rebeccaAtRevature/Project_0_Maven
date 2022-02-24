@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,18 +19,6 @@ import pojo.TransactionPojo;
 public class CustomerJdbcDaoImpl implements CustomerDao{
 	
 	public static final Logger LOG = LogManager.getLogger(CustomerJdbcDaoImpl.class);
-
-	@Override
-	public CustomerPojo customerLogin(int customerId, String customerPassword) throws SystemException {
-		LOG.info("Entering customerLogin() in Dao");
-		CustomerPojo customerPojo = null;
-		CustomerPojo loginAttempt = fetchCustomer(customerId);
-		if (loginAttempt.getCustomerPassword().equals(customerPassword)) {
-			customerPojo = loginAttempt;
-		}
-		LOG.info("Exiting customerLogin() in Dao");
-		return customerPojo;
-	}
 
 	@Override
 	public CustomerPojo fetchCustomer(int customerId) throws SystemException {
@@ -146,7 +135,7 @@ public class CustomerJdbcDaoImpl implements CustomerDao{
 	}
 	
 	@Override
-	public TransactionPojo addTransaction(TransactionPojo transactionPojo) throws SystemException {
+	public TransactionPojo addTransaction(TransactionPojo transactionPojo) throws SystemException{
 		LOG.info("Entering addTransaction() in Dao");
 		// Step 2 - pass connection from DBUtil to conn
 		Connection conn = DBUtil.obtainConnection();

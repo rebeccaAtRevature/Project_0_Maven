@@ -1,5 +1,6 @@
 package service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -22,7 +23,14 @@ public class CustomerServiceImpl implements CustomerService{
 	// LOGIN
 	@Override
 	public CustomerPojo customerLogin(int customerId, String customerPassword) throws SystemException {
-		return customerDao.customerLogin(customerId, customerPassword);
+		LOG.info("Entering customerLogin() in Dao");
+		CustomerPojo customerPojo = null;
+		CustomerPojo loginAttempt = customerDao.fetchCustomer(customerId);
+		if (loginAttempt.getCustomerPassword().equals(customerPassword)) {
+			customerPojo = loginAttempt;
+		}
+		LOG.info("Exiting customerLogin() in Dao");
+		return customerPojo;
 	}
 	
 	// VIEW ACCOUNT DATA
